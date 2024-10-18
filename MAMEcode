@@ -1,0 +1,59 @@
+#include "emu.h"
+#include "screen.h"
+#include "speaker.h"
+
+class pong_state : public driver_device {
+public:
+    pong_state(const machine_config &mconfig, device_type type, const char *tag)
+        : driver_device(mconfig, type, tag) {}
+
+    // Game state variables
+    int paddle1_y;
+    int paddle2_y;
+
+    // Methods
+    void update_game();
+    void draw_game(screen_device &screen);
+};
+
+// Input handling
+static INPUT_PORTS_START(pong)
+    PORT_START("PADDLE1")
+    PORT_ANALOG(0xff, 0x80, IPT_PADDLE, 100, 20, 0, 255)
+
+    PORT_START("PADDLE2")
+    PORT_ANALOG(0xff, 0x80, IPT_PADDLE, 100, 20, 0, 255)
+INPUT_PORTS_END
+
+// Update game logic
+void pong_state::update_game() {
+    // Logic to move paddles and ball
+}
+
+// Draw the game frame
+void pong_state::draw_game(screen_device &screen) {
+    // Draw paddles, ball, and background
+}
+
+// Main game initialization
+static MACHINE_CONFIG_START(pong, pong_state)
+    MCFG_SCREEN_ADD("screen", RASTER)
+    MCFG_SCREEN_REFRESH_RATE(60)
+    MCFG_SCREEN_SIZE(256, 240)
+    MCFG_SCREEN_VISIBLE_AREA(0, 255, 0, 239)
+
+    // Add audio configuration here if needed
+
+    // Set the screen update function
+    MCFG_SCREEN_UPDATE_DRIVER(pong_state, draw_game)
+MACHINE_CONFIG_END
+
+// ROM definition (dummy here, replace with actual ROM data)
+ROM_START(pong)
+    ROM_REGION(0x10000, "maincpu", 0)
+    // Load your ROMs here
+ROM_END
+
+// Driver definition
+GAME(2024, pong, 0, pong, pong, pong_state, empty_init, ROT0, "Your Name", "Pong", MACHINE_SUPPORTS_SAVE)
+
